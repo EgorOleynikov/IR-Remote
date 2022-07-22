@@ -16,6 +16,7 @@ IRdecode myDecoder;   //create decoder
 
 void setup() {
   Serial.begin(9600);
+  delay(3000);
   Serial.println(F("Ready"));
 }
 

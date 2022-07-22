@@ -1,9 +1,9 @@
-from curses import baudrate, echo, window
-from ipaddress import collapse_addresses
 import serial
 from tkinter import *
 from tkinter import ttk
-from tkinter import filedialog
+import asyncio
+from serial_asyncio import open_serial_connection
+
 
 ARDUINO_CONF = {"port": "COM5", "baudrate":"9600"};
 
@@ -25,26 +25,34 @@ threevar = BooleanVar(value=True)
 #
 
 #funcs
-def popUp_waitForReadings():
-    def dismiss():
-        with serial.Serial(port=ARDUINO_CONF["port"], baudrate=ARDUINO_CONF["baudrate"]) as ser:
-            ser = serial.Serial()  # open serial port
-            ser.write(bytearray(1)) # tells arduino to start listening
-            line = ser.readline()
-            print(line)
-            ser.write(bytearray(0))
-            ser.close()
+async def arduino_request(value):
+    #value[1].write(bytearray(1)) # awakes arduino 
+    line = await value[0].readline()
+    print(line)
+    #value[1].write(bytearray(0))
 
+async def popUp_waitForReadings():
+    reader, writer = await open_serial_connection(url=ARDUINO_CONF["port"], baudrate=ARDUINO_CONF["baudrate"])
+    def dismiss():
+        #writer.write(bytearray(0))
         dlg.grab_release()
         dlg.destroy()
-
+    
     dlg = Toplevel(root)
     ttk.Button(dlg, text="Done", command=dismiss).grid()
     dlg.protocol("WM_DELETE_WINDOW", dismiss) # intercept close button
     dlg.transient(root)   # dialog window is related to main
     dlg.wait_visibility() # can't grab until window appears, so we wait
     dlg.grab_set()        # ensure all input goes to our window
-    dlg.wait_window()     # block until window is destroyed
+    #dlg.wait_window()     # block until window is destroyed
+    return [reader, writer]
+
+async def main():
+    task1 = asyncio.create_task(popUp_waitForReadings())
+    value = await task1
+    task2 = asyncio.create_task(arduino_request(value))
+    await task2
+    
 
 #
 
@@ -56,7 +64,7 @@ three = ttk.Checkbutton(page1, text="Three", variable=threevar, onvalue=True)
 #
 #p2
 dataName = ttk.Entry(page2)
-add = ttk.Button(page2, text="Add", command=popUp_waitForReadings)
+add = ttk.Button(page2, text="Add", command=lambda: asyncio.run(main()))
 #
 #
 
