@@ -1,3 +1,5 @@
+#include <Arduino.h>
+#line 1 "c:\\Users\\Andrew\\Desktop\\Remote\\Remote.ino"
 /* rawR&cv.ino Example sketch for IRLib2
  *  Illustrate how to capture raw timing values for an unknow protocol.
  *  You will capture a signal using this sketch. It will output data the 
@@ -14,6 +16,11 @@
 IRrecvPCI myReceiver(3);//pin number for the receiver
 IRdecode myDecoder;   //create decoder
 
+#line 17 "c:\\Users\\Andrew\\Desktop\\Remote\\Remote.ino"
+void setup();
+#line 22 "c:\\Users\\Andrew\\Desktop\\Remote\\Remote.ino"
+void loop();
+#line 17 "c:\\Users\\Andrew\\Desktop\\Remote\\Remote.ino"
 void setup() {
   Serial.begin(9600);
   Serial.println(F("Ready"));
@@ -44,3 +51,4 @@ void loop() {
     myReceiver.enableIRIn();      //Restart receiver
   }
 }
+

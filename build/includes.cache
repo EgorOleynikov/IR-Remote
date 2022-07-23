@@ -1,0 +1,77 @@
+[
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino"
+  },
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\variants\\eightanaloginputs"
+  },
+  {
+    "Sourcefile": "c:\\Users\\Andrew\\Desktop\\Remote\\build\\sketch\\Remote.ino.cpp",
+    "Include": "IRLibRecvPCI.h",
+    "Includepath": "C:\\Program Files (x86)\\Arduino\\libraries\\IRLibRecvPCI"
+  },
+  {
+    "Sourcefile": "c:\\Users\\Andrew\\Desktop\\Remote\\build\\sketch\\Remote.ino.cpp",
+    "Include": "IRLibRecvBase.h",
+    "Includepath": "C:\\Program Files (x86)\\Arduino\\libraries\\IRLib2"
+  },
+  {
+    "Sourcefile": "c:\\Users\\Andrew\\Desktop\\Remote\\build\\sketch\\Remote.ino.cpp",
+    "Include": "IRLibProtocols.h",
+    "Includepath": "C:\\Program Files (x86)\\Arduino\\libraries\\IRLibProtocols"
+  },
+  {
+    "Sourcefile": "c:\\Users\\Andrew\\Desktop\\Remote\\build\\sketch\\Remote.ino.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Program Files (x86)\\Arduino\\libraries\\IRLibRecvPCI\\IRLibRecvPCI.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Program Files (x86)\\Arduino\\libraries\\IRLib2\\IRLibDecodeBase.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Program Files (x86)\\Arduino\\libraries\\IRLib2\\IRLibRecvBase.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Program Files (x86)\\Arduino\\libraries\\IRLib2\\IRLibRecvLoop.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Program Files (x86)\\Arduino\\libraries\\IRLibProtocols\\IRLibHardware.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Program Files (x86)\\Arduino\\libraries\\IRLibProtocols\\IRLibProtocols.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Program Files (x86)\\Arduino\\libraries\\IRLibProtocols\\IRLibSAMD21.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Program Files (x86)\\Arduino\\libraries\\IRLibProtocols\\IRLibSAMD51.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Program Files (x86)\\Arduino\\libraries\\IRLibProtocols\\IRLibSendBase.cpp",
+    "Include": "",
+    "Includepath": null
+  }
+]

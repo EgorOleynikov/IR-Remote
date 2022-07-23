@@ -1,9 +1,10 @@
+from base64 import encode
 import threading
 import serial
 from tkinter import *
 from tkinter import ttk
-import asyncio
-from serial_asyncio import open_serial_connection
+#import asyncio
+#from serial_asyncio import open_serial_connection
 
 
 ARDUINO_CONF = {"port": "COM5", "baudrate":"9600"};
@@ -29,22 +30,49 @@ threevar = BooleanVar(value=True)
 
 def popUp_waitForReadings():
     ser = serial.Serial(ARDUINO_CONF["port"], ARDUINO_CONF["baudrate"])
-    def arduino_request():
-        ser.write(bytearray(1)) # awakes arduino 
-        line = ser.readline()
-        print(line)
-        ser.write(bytearray(0))
+
+    def arduino_request(): # runs in a separate thread
+        def serial_read():
+            try:
+                respond = ser.readline() # reads last line
+                respond = respond.decode().replace("\r\n", "")
+                return respond
+            except:
+                print("port is closed")
+
+        def serial_write(message):
+            try:
+                ser.write(message.encode()) # reads last line
+            except:
+                print("port is closed")
+        
+        respond = serial_read()
+        print(respond)
+        if "Ready" in respond:
+            # ready
+            serial_write("1") # awakes arduino
+            respond = serial_read()
+            print(respond)
+            if "Listen" in respond:
+                # listen
+                decode = serial_read()
+                print(decode)
+                rawData = serial_read()
+                print(rawData)
+            
+        serial_write("0")
     
     def dismiss():
-        ser.write(bytearray(0))
         dlg.grab_release()
         dlg.destroy()
+        ser.cancel_read()
+        ser.cancel_write()
         ser.close()
 
     thread = threading.Thread(target=arduino_request, args=())
     thread.start()
     dlg = Toplevel(root)
-    ttk.Button(dlg, text="Done", command=dismiss).grid()
+    ttk.Button(dlg, text="Cancel", command=dismiss).grid()
     dlg.protocol("WM_DELETE_WINDOW", dismiss) # intercept close button
     dlg.transient(root)   # dialog window is related to main
     #dlg.wait_visibility() # can't grab until window appears, so we wait
