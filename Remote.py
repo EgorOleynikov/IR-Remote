@@ -1,3 +1,4 @@
+import threading
 import serial
 from tkinter import *
 from tkinter import ttk
@@ -25,34 +26,30 @@ threevar = BooleanVar(value=True)
 #
 
 #funcs
-async def arduino_request(value):
-    #value[1].write(bytearray(1)) # awakes arduino 
-    line = await value[0].readline()
-    print(line)
-    #value[1].write(bytearray(0))
 
-async def popUp_waitForReadings():
-    reader, writer = await open_serial_connection(url=ARDUINO_CONF["port"], baudrate=ARDUINO_CONF["baudrate"])
+def popUp_waitForReadings():
+    ser = serial.Serial(ARDUINO_CONF["port"], ARDUINO_CONF["baudrate"])
+    def arduino_request():
+        ser.write(bytearray(1)) # awakes arduino 
+        line = ser.readline()
+        print(line)
+        ser.write(bytearray(0))
+    
     def dismiss():
-        #writer.write(bytearray(0))
+        ser.write(bytearray(0))
         dlg.grab_release()
         dlg.destroy()
-    
+        ser.close()
+
+    thread = threading.Thread(target=arduino_request, args=())
+    thread.start()
     dlg = Toplevel(root)
     ttk.Button(dlg, text="Done", command=dismiss).grid()
     dlg.protocol("WM_DELETE_WINDOW", dismiss) # intercept close button
     dlg.transient(root)   # dialog window is related to main
-    dlg.wait_visibility() # can't grab until window appears, so we wait
-    dlg.grab_set()        # ensure all input goes to our window
+    #dlg.wait_visibility() # can't grab until window appears, so we wait
+    #dlg.grab_set()        # ensure all input goes to our window
     #dlg.wait_window()     # block until window is destroyed
-    return [reader, writer]
-
-async def main():
-    task1 = asyncio.create_task(popUp_waitForReadings())
-    value = await task1
-    task2 = asyncio.create_task(arduino_request(value))
-    await task2
-    
 
 #
 
@@ -64,7 +61,7 @@ three = ttk.Checkbutton(page1, text="Three", variable=threevar, onvalue=True)
 #
 #p2
 dataName = ttk.Entry(page2)
-add = ttk.Button(page2, text="Add", command=lambda: asyncio.run(main()))
+add = ttk.Button(page2, text="Add", command=lambda: popUp_waitForReadings())
 #
 #
 

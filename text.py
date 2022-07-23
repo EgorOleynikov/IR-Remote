@@ -4,8 +4,18 @@ from serial_asyncio import open_serial_connection
 
 async def run():
     reader, writer = await open_serial_connection(url='COM5', baudrate=9600)
-    while True:
-        line = await reader.readline()
-        print(str(line, 'utf-8'))
+    line = await reader.readline()
+    print(str(line, 'utf-8'))
 
-asyncio.new_event_loop().run_until_complete(run())
+async def walk():
+    print("init")
+    await asyncio.sleep(5)
+    print("second message")
+
+async def main():
+    task1 = asyncio.create_task(run())
+    task2 =  asyncio.create_task(walk())
+    await task1
+    await task2
+    
+asyncio.run(main())
